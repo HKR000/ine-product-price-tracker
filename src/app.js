@@ -15,10 +15,13 @@ const { defaultLogger } = require('./scraper/logger');
 const app = express();
 
 // Security & Parsing Middleware
+let corsOrigin = '*';
+if (process.env.CORS_ORIGIN && process.env.CORS_ORIGIN !== '*') {
+  corsOrigin = process.env.CORS_ORIGIN.split(',').map(s => s.trim()).filter(Boolean);
+}
+
 app.use(cors({
-  origin: process.env.CORS_ORIGIN 
-    ? process.env.CORS_ORIGIN.split(',').map(s => s.trim()).filter(Boolean) 
-    : '*',
+  origin: corsOrigin,
   methods: ['GET', 'POST', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Cron-Secret']
 }));
