@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: ine-price-tracker-backend
+    runtime: node
+    plan: free
+    region: oregon
+    buildCommand: npm install && npx playwright install chromium
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: DATABASE_URL
+        sync: false
+      - key: CRON_SECRET
+        generateValue: true
+      - key: CORS_ORIGIN
+        sync: false
+      - key: MOCK_STORE_BASE_URL
+        value: https://demo.inelabteamdev.com
+      - key: SCRAPER_MAX_ATTEMPTS
+        value: 3
+      - key: SCRAPER_TIMEOUT_MS
+        value: 25000
+      - key: SCRAPER_HEADED
+        value: false
