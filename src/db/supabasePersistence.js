@@ -148,7 +148,6 @@ class SupabasePersistence extends PersistenceInterface {
         INSERT INTO price_history (
           product_id, price, currency, mrp, stock_status, stock_count, raw_stock_text, scraped_at
         ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-        ON CONFLICT (product_id, date_trunc('minute', scraped_at)) DO NOTHING
         RETURNING *
       `;
 
@@ -295,8 +294,7 @@ class SupabasePersistence extends PersistenceInterface {
       await client.query(
         `INSERT INTO price_history (
           product_id, price, currency, mrp, stock_status, stock_count, raw_stock_text, scraped_at
-        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-        ON CONFLICT (product_id, date_trunc('minute', scraped_at)) DO NOTHING`,
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
         [
           trackedProductId,
           candidate.price,
